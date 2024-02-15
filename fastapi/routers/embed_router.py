@@ -1,11 +1,12 @@
-
+from urllib.parse import urlparse
+import os
 from fastapi import HTTPException, APIRouter
 import cv2
 import numpy as np
 import aiohttp
 from models.embed_image import Embed_image
 import watermarking_Scheme
-from Evaluation_parameters import calculate_nc, calculate_psnr
+from Evaluation_parameters import calculate_ber, calculate_nc, calculate_psnr, calculate_ssim
 
 router = APIRouter()
 
@@ -75,16 +76,23 @@ async def embed_SIFT(image: Embed_image):
     watermarked_image = model.embed_with_SIFT()
     psnr = calculate_psnr(base_img, watermarked_image[0])
     nc = calculate_nc(base_img, watermarked_image[0])
+    ssim = calculate_ssim(base_img, watermarked_image[0])
+    ber = calculate_ber(base_img, watermarked_image[0])
     # nc_watermark = calculate_nc(watermark_img, watermark_img)
+    # Extract the base image's name from its URL
+    base_image_name = os.path.basename(urlparse(image.base_url).path)
 
-    cv2.imwrite('images/watermarked_image_SIFT.png', watermarked_image[0])
+    # Generate a unique name for the watermarked image
+    watermarked_image_name = f"watermarked_{base_image_name}"
+
+    cv2.imwrite(f'images/{watermarked_image_name}', watermarked_image[0])
 
     return {
-        "image": "http://localhost:8000/images/watermarked_image_SIFT.png",
-        "PSNR_between_base_watermarked": psnr,
-        "NC_between_base_watermarked": nc,
-        "NC_between_basewatermark_extractedwatermark": "0.0",
-        
+        "image": f"http://localhost:8000/images/{watermarked_image_name}",
+        "psnr": psnr,
+        "nc": nc, 
+        "ssim":  ssim,
+        "ber": ber      
     }
 
 

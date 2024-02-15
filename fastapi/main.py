@@ -6,6 +6,7 @@ app = FastAPI()
 
 
 app.mount("/images", StaticFiles(directory="images"), name="images")
+app.mount("/testimages", StaticFiles(directory="testimages"), name="testimages")
 app.mount("/watermarks", StaticFiles(directory="watermarks"), name="watermarks")
 
 app.include_router(embed_router.router, prefix="/api")
