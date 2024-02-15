@@ -1,4 +1,5 @@
-
+from urllib.parse import urlparse
+import os
 from fastapi import HTTPException, APIRouter
 from fastapi.staticfiles import StaticFiles
 import cv2
@@ -6,7 +7,7 @@ import numpy as np
 import aiohttp
 from models.extract_image import Extract_Image
 import watermarking_Scheme
-from Evaluation_parameters import calculate_nc, calculate_psnr
+from Evaluation_parameters import calculate_ber, calculate_nc, calculate_psnr, calculate_ssim
 
 router = APIRouter()
 
@@ -73,12 +74,22 @@ async def extract_watermark_sift(image: Extract_Image):
     watermark_image = model.extract_with_SIFT(base_img, watermark_img)
     og_watermark = cv2.imread('watermarks/watermark.jpg')
     nc = calculate_nc(og_watermark, watermark_image)
+    ssim = calculate_ssim(og_watermark, watermark_image)
+    ber = calculate_ber(og_watermark, watermark_image)
     # nc_watermark = calculate_nc(watermark_img, watermark_img)
 
-    cv2.imwrite('images/extracted_watermark_sift.png', watermark_image)
+    # Extract the base image's name from its URL
+    base_image_name = os.path.basename(urlparse(image.base_url).path)
+
+    # Generate a unique name for the watermarked image
+    extracted_watermark_name = f"extracted_watermark_{base_image_name}"
+
+    cv2.imwrite(f'images/{extracted_watermark_name}', watermark_image)
     
 
     return {
-        "extracted_watermark": "http://localhost:8000/images/extracted_watermark_sift.png",
-        "nc": nc
+        "extracted_watermark": f"http://localhost:8000/images/{extracted_watermark_name}",
+        "nc": nc,
+        "ssim": ssim,
+        "ber": ber
     }

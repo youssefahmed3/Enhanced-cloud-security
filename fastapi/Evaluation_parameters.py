@@ -1,6 +1,43 @@
 import cv2 # for reading and writing images
 import numpy as np # for mathematical operations
 
+def calculate_ssim(img1, img2):
+    # Ensure the images are the same size
+    if img1.shape != img2.shape:
+        # Resize img2 to match img1
+        img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
+
+    # Calculate mean of each image
+    mu1 = cv2.mean(img1)[0]
+    mu2 = cv2.mean(img2)[0]
+
+    # Calculate variance and covariance
+    sigma1 = cv2.mean((img1 - mu1)**2)[0]
+    sigma2 = cv2.mean((img2 - mu2)**2)[0]
+    sigma12 = cv2.mean((img1 - mu1)*(img2 - mu2))[0]
+
+    # Calculate SSIM
+    ssim = ((2*mu1*mu2 + 1.0)*(2*sigma12 + 1.0)) / ((mu1**2 + mu2**2 + 1.0)*(sigma1 + sigma2 + 1.0))
+
+    return ssim
+
+def calculate_ber(img1, img2):
+    # Ensure the images are the same size
+    if img1.shape != img2.shape:
+        # Resize img2 to match img1
+        img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
+
+    # Calculate the total number of pixels
+    total_pixels = img1.shape[0] * img1.shape[1]
+
+    # Calculate the number of different pixels
+    different_pixels = np.sum(img1 != img2)
+
+    # Calculate BER
+    ber = different_pixels / total_pixels
+
+    return ber
+
 def calculate_nc(image, template):
     # Ensure the images are the same size
     if image.shape != template.shape:
@@ -29,7 +66,7 @@ def calculate_nc(image, template):
     return nc
 
 
-def calculate_psnr(original_image, reconstructed_image):
+def calculate_psnr(original_image, reconstructed_image):    
     if original_image.shape != reconstructed_image.shape:
         # Resize reconstructed_image to match the shape of original_image
         reconstructed_image = cv2.resize(reconstructed_image, (original_image.shape[1], original_image.shape[0]))
@@ -48,3 +85,15 @@ def calculate_psnr(original_image, reconstructed_image):
     psnr = 20 * np.log10(max_pixel / np.sqrt(mse))
 
     return psnr
+
+
+    # Calculate the total number of pixels
+    total_pixels = img1.shape[0] * img1.shape[1]
+
+    # Calculate the number of different pixels
+    different_pixels = np.sum(img1 != img2)
+
+    # Calculate BER
+    ber = different_pixels / total_pixels
+
+    return ber

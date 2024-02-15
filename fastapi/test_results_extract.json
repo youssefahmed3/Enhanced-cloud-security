@@ -1,0 +1,56 @@
+[
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_airplane.jpg",
+    "nc": 0.9749274232965931,
+    "ssim": 0.8137853338370297,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_bird-color.jpg",
+    "nc": 0.9593868439668846,
+    "ssim": 0.8085524895029752,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_man-1.jpg",
+    "nc": 0.9192320059053001,
+    "ssim": 0.7974388351122045,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_man-2.jpg",
+    "nc": 0.9746825369792714,
+    "ssim": 0.8218703948131745,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_man-3.jpeg",
+    "nc": 0.96459038331829,
+    "ssim": 0.8234009891057432,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_man-4.jpg",
+    "nc": 0.9641194372038403,
+    "ssim": 0.8121548328567084,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_sea.jpg",
+    "nc": 0.9824903258422555,
+    "ssim": 0.8164022148487228,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_women-1.jpg",
+    "nc": -0.029591559794015454,
+    "ssim": 8.663884370062392e-5,
+    "ber": 3.0
+  },
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_women-2.png",
+    "nc": 0.004850279210220901,
+    "ssim": -0.0003494544399563524,
+    "ber": 3.0
+  }
+]

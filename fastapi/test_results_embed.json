@@ -1,0 +1,72 @@
+[
+  {
+    "image": "http://localhost:8000/images/watermarked_airplane.jpg",
+    "psnr": 50.0517202483733,
+    "nc": 0.9998029137404599,
+    "ssim": 0.9996281893061033,
+    "ber": 1.92765625
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_bird-color.jpg",
+    "psnr": 49.9698873223916,
+    "nc": 0.9998629298342702,
+    "ssim": 0.9998138482050349,
+    "ber": 1.9643229166666667
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_lena.png",
+    "psnr": 49.97244750240618,
+    "nc": 0.9998571491165326,
+    "ssim": 0.9998571703106408,
+    "ber": 0.654388427734375
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_man-1.jpg",
+    "psnr": 50.33776580988315,
+    "nc": 0.9999590963389655,
+    "ssim": 0.9999510513977191,
+    "ber": 1.8047831790123456
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_man-2.jpg",
+    "psnr": 33.390839236125416,
+    "nc": 0.9820676651556093,
+    "ssim": 0.9703667114791776,
+    "ber": 2.574161060700876
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_man-3.jpeg",
+    "psnr": 35.345857890792544,
+    "nc": 0.9948169924534422,
+    "ssim": 0.994320694988486,
+    "ber": 2.500132450331126
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_man-4.jpg",
+    "psnr": 49.96438845063726,
+    "nc": 0.9996430854566931,
+    "ssim": 0.9996499419124099,
+    "ber": 1.9668116429578368
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_sea.jpg",
+    "psnr": 49.979367392979064,
+    "nc": 0.9999305109579462,
+    "ssim": 0.9999378916727656,
+    "ber": 1.960039737654321
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_women-1.jpg",
+    "psnr": 28.82334581522022,
+    "nc": 0.019840081994704127,
+    "ssim": -0.05234780200457921,
+    "ber": 2.8612644528137485
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_women-2.png",
+    "psnr": 28.20278791004984,
+    "nc": 0.08664487016953294,
+    "ssim": 0.0859012644881972,
+    "ber": 2.9447096479195243
+  }
+]
