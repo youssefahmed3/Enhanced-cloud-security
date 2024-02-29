@@ -1,10 +1,32 @@
 "use client";
+import useAuth from "@/app/context/useAuth";
 import File_Dock_Fill from "@/assets/svgs/file_dock_fill";
 import Card from "@/components/shared/card/Card";
 import Navbar from "@/components/shared/navbar/navbar";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
+import DownloadIcon from "@/assets/svgs/download";
 
 export default function Page() {
+  const { isAuthenticated, session } = useAuth();
+  const router = useRouter();
+
+  if (!isAuthenticated) {
+    router.replace("/login");
+  }
   return (
     <main className="side-container-flex gap-5">
       <Navbar />
@@ -15,17 +37,40 @@ export default function Page() {
           <Button className="button-style">Filter</Button>
         </div>
 
-        <div className="flex justify-evenly items-center">
-          <File_Dock_Fill color="#EBF9FF" />
-          <p>Document Name</p>
-          <p>Type</p>
-          <p>Watermark used</p>
-          <p>Uploaded At</p>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <Card to="#" cardImage="" name="SeaImage" type="Img" watermarkedUsed="Lena" uploadedAt="Mon 12:00PM" downloadLink="#"  />
-        </div>
+        <Table className="">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">
+              <File_Dock_Fill color="#EBF9FF" />
+            </TableHead>
+            <TableHead className="text-myColors-primary-text_white">
+              Documents Name
+            </TableHead>
+            <TableHead className="text-myColors-primary-text_white">Type</TableHead>
+            <TableHead className="text-myColors-primary-text_white">Watermarked Used</TableHead>
+            <TableHead className="text-myColors-primary-text_white">Uploaded At</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow
+            className="cursor-pointer"
+            onClick={() => router.push('/documents/1')}
+          >
+            <TableCell>
+              <Avatar className="w-[30px] h-[30px]">
+                <AvatarImage src={`${session?.user?.image}`} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </TableCell>
+            <TableCell>lena</TableCell>
+            <TableCell>png</TableCell>
+            <TableCell>watermark-1.png</TableCell>
+            <TableCell>Mon 12:00pm</TableCell>
+            
+            
+          </TableRow>
+        </TableBody>
+      </Table>
       </div>
     </main>
   );

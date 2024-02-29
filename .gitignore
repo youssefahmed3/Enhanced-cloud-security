@@ -12,7 +12,7 @@ env.bak/
 venv.bak/
 ENV.bak/
 testimages/
-
+images/
 # Next.js
 .next/
 out/

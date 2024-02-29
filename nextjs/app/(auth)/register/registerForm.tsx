@@ -21,13 +21,14 @@ import Link from "next/link";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import { addUser } from "@/firebase/firestore/actions/user.actions";
+import useAuth from "@/app/context/useAuth";
 
 function RegisterForm() {
+  const { isAuthenticated, session } = useAuth();
   const router = useRouter();
-  const { data: session } = useSession();
 
-  if (session) {
-    router.push("/home");
+  if (isAuthenticated) {
+    router.replace("/dashboard");
   }
 
   const FormSchema = z
@@ -70,7 +71,7 @@ function RegisterForm() {
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     form.clearErrors();
     createUserWithEmailAndPassword(auth, values.email, values.password)
-    await addUser({firstname: values.firstname, lastname: values.lastname, email: values.email, username: values.username , password: values.password})
+    await addUser({firstname: values.firstname, lastname: values.lastname, email: values.email, username: values.username})
     router.push("/login");
   }
 

@@ -7,7 +7,10 @@ export default class User {
         public email: string,
         public avatar?: string,
         public createdAt?: Date,
-        public updatedAt?: Date
+        public updatedAt?: Date,
+        public watermarks?: [string],
+        public watermarkedImages?: [string],
+
     ) {}
     
     /* From Firestore to object i can use */
@@ -35,6 +38,8 @@ export default class User {
             photoUrl: this.avatar || "",
             createdAt: this.createdAt || now,
             updatedAt: this.updatedAt || now,
+            watermarks: this.watermarks || [],
+            watermarkedImages: this.watermarkedImages || [],
         };
     }
 }

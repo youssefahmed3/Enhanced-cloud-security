@@ -16,16 +16,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useSession, signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
-import { toast } from "sonner"
-
+import { toast } from "sonner";
+import useAuth from "@/app/context/useAuth";
+import SocialButton from "@/components/shared/socialButton/socialButton";
+import googleIcon from "@/assets/pngs/googleicon.png";
+import Image from "next/image";
 function LoginForm() {
-  const { data: session } = useSession();
+  const { isAuthenticated, session } = useAuth();
+  const router = useRouter();
 
-  if (session) {
-    redirect("/");
+  if (isAuthenticated) {
+    router.replace("/dashboard");
   }
+
+  /* const { data: session } = useSession(); */
 
   const FormSchema = z.object({
     email: z
@@ -52,7 +58,6 @@ function LoginForm() {
         email: values.email,
         password: values.password,
       });
-      
     } catch (error) {
       console.log(error);
     }
@@ -71,9 +76,7 @@ function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">
-                Email
-              </FormLabel>
+              <FormLabel className="text-white">Email</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your email ..."
@@ -92,9 +95,7 @@ function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">
-                Password
-              </FormLabel>
+              <FormLabel className="text-white">Password</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your very Secure password ..."
@@ -108,13 +109,17 @@ function LoginForm() {
           )}
         />
 
-        <Button variant={"default"} className="button-style w-full" type="submit">
+        <Button
+          variant={"default"}
+          className="button-style w-full"
+          type="submit"
+        >
           Login
         </Button>
+
         <hr />
-        <Button variant={"default"} className="button-style w-full" type="button" onClick={() => signIn("google")}>
-          Login with google
-        </Button>
+       
+        <SocialButton img={googleIcon} provider="google" />
 
         <div className="flex justify-between">
           <p className="text-myColors-primary-text_white">

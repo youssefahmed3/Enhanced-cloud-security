@@ -124,7 +124,9 @@ class watermarking_Scheme:
     def embed_with_SIFT(self):
         logging.basicConfig(filename='watermarking.log', level=logging.DEBUG)
         logging.info('Starting the watermarking process...')
-
+        sift = cv2.xfeatures2d.SIFT_create()
+        ogkeypoints, ogdescriptors = sift.detectAndCompute(self.original_image, None)
+        
         original_dimensions = self.original_image.shape[:2]
         logging.info(f'Original image dimensions: {original_dimensions}')
 
@@ -187,7 +189,7 @@ class watermarking_Scheme:
 
         # Merge the watermarked channels back together
         watermarked_image = cv2.merge(watermarked_image_channels)
-        sift = cv2.xfeatures2d.SIFT_create()
+        
 
         # Ensure the image is not empty
         if watermarked_image is None or watermarked_image.size == 0:
@@ -196,10 +198,9 @@ class watermarking_Scheme:
         # Convert the image to 8-bit single-channel image if it's not
         if watermarked_image.dtype != np.uint8:
             watermarked_image = cv2.convertScaleAbs(watermarked_image)
-        keypoints, descriptors = sift.detectAndCompute(watermarked_image, None)
 
         logging.info('Finished the watermarking process.')
-        return watermarked_image, keypoints, descriptors
+        return watermarked_image, ogkeypoints, ogdescriptors
     
     def extract_with_SIFT(self, original_image, watermarked_image):
         MIN_NUM_GOOD_MATCHES = 10  # Define the minimum number of good matches
