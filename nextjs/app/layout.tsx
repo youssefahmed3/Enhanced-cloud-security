@@ -17,7 +17,7 @@ const RootLayout = ({children, hasSidebar}: {children: React.ReactNode[], hasSid
     <html lang="en">
       <body className={`${inter.className} bg-myColors-primary-background text-myColors-primary-text_white`}>
         <AuthProvider>
-          <div id="container" className={`flex `}>
+          <div id="container" className={`flex`}>
             <Sidebar />
             <div className="flex-grow">
               {children}

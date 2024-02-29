@@ -16,15 +16,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useSession, signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase/config";
-function ResetPasswordForm() {
-  const { data: session } = useSession();
+import useAuth from "@/app/context/useAuth";
 
-  if (session) {
-    redirect("/");
+
+function ResetPasswordForm() {
+  const { isAuthenticated, session } = useAuth();
+  const router = useRouter();
+
+  if (isAuthenticated) {
+    router.replace("/dashboard");
   }
 
   const FormSchema = z.object({

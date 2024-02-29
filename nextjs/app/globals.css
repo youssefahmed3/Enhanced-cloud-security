@@ -76,8 +76,7 @@
 }
 
 .input-field-style {
-  /* Change the placeholder color */
-  @apply placeholder-myColors-primary-background;
+  @apply placeholder:text-myColors-primary-background;
   @apply bg-myColors-accent-blue2 text-myColors-primary-background;
   @apply border-myColors-primary-background;
 }
@@ -90,6 +89,21 @@
   @apply cursor-pointer select-none;
 }
 
+.social-button {
+  @apply bg-myColors-accent-blue2 hover:bg-myColors-primary-background w-auto
+  
+}
+
+
 .side-container-flex {
   @apply flex flex-col min-h-screen px-5 py-3;
+}
+
+.side-bar-style {
+  @apply flex flex-col items-center justify-between bg-myColors-primary-blue py-5 px-4 rounded-tr-xl rounded-br-xl
+}
+
+.active {
+  @apply bg-myColors-primary-background text-myColors-primary-text_white;
+  @apply border-myColors-primary-background;
 }

@@ -7,9 +7,9 @@ export default function Navbar() {
     const { isAuthenticated, session } = useAuth();
   return (
     <>
-        <div className="flex items-center justify-between">
+        <div className=" col-span-2 flex items-center justify-between">
         <Input
-          placeholder="Enter your very Secure password ..."
+          placeholder="Search..."
           className="input-field-style w-[60%]"
           type="text"
         />
