@@ -66,8 +66,7 @@ function Sidebar() {
           className={`button-style ${pathname === "/upload" ? "active" : ""}`}
           onClick={() => router.push("/upload")}
         >
-          <File_Dock_Fill color="#222222" />
-          Upload Document
+          Upload
         </Button>
         <Button
           className={`button-style ${pathname === "/settings" ? "active" : ""}`}

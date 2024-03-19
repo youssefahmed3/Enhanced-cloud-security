@@ -200,7 +200,7 @@ class watermarking_Scheme:
             watermarked_image = cv2.convertScaleAbs(watermarked_image)
 
         logging.info('Finished the watermarking process.')
-        return watermarked_image, ogkeypoints, ogdescriptors
+        return watermarked_image
     
     def extract_with_SIFT(self, original_image, watermarked_image):
         MIN_NUM_GOOD_MATCHES = 10  # Define the minimum number of good matches

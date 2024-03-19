@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -26,10 +26,11 @@ import Image from "next/image";
 function LoginForm() {
   const { isAuthenticated, session } = useAuth();
   const router = useRouter();
-
-  if (isAuthenticated) {
-    router.replace("/dashboard");
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/dashboard");
+    }
+  }, [isAuthenticated, router]);
 
   /* const { data: session } = useSession(); */
 
@@ -119,8 +120,15 @@ function LoginForm() {
 
         <hr />
        
-        <SocialButton img={googleIcon} provider="google" />
-
+        <Button
+          type="button"
+          variant={"default"}
+          className="button-style w-full"
+          onClick={() => signIn("google")}
+        >
+          Login With Google
+        </Button>
+        
         <div className="flex justify-between">
           <p className="text-myColors-primary-text_white">
             Don’t have an account ?{" "}

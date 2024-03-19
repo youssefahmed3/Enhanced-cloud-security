@@ -74,18 +74,24 @@ async def embed_SIFT(image: Embed_image):
     # Embed the watermark
     model = watermarking_Scheme.watermarking_Scheme(base_img, watermark_img)
     result = model.embed_with_SIFT()
-    psnr = calculate_psnr(base_img, result[0])
-    nc = calculate_nc(base_img, result[0])
-    ssim = calculate_ssim(base_img, result[0])
-    ber = calculate_ber(base_img, result[0])
+    psnr = calculate_psnr(base_img, result)
+    nc = calculate_nc(base_img, result)
+    ssim = calculate_ssim(base_img, result)
+    ber = calculate_ber(base_img, result)
     # nc_watermark = calculate_nc(watermark_img, watermark_img)
     # Extract the base image's name from its URL
     base_image_name = os.path.basename(urlparse(image.base_url).path)
 
+    # Extract the base image's name from its URL
+    base_image_name = os.path.basename(urlparse(image.base_url).path)
+
+    # Ensure the base image name has a supported extension
+    base_image_name = base_image_name if base_image_name.lower().endswith(('.png', '.jpg', '.jpeg')) else base_image_name + '.png'
+
     # Generate a unique name for the watermarked image
     watermarked_image_name = f"watermarked_{base_image_name}"
 
-    cv2.imwrite(f'images/{watermarked_image_name}', result[0])
+    cv2.imwrite(f'images/{watermarked_image_name}', result)
 
     return {
         "image": f"http://localhost:8000/images/{watermarked_image_name}",
@@ -93,8 +99,6 @@ async def embed_SIFT(image: Embed_image):
         "nc": nc, 
         "ssim":  ssim,
         "ber": ber,
-        "keypoints": result[1],
-        "descriptors": result[2],   
     }
 
 

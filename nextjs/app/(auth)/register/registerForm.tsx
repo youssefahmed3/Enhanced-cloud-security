@@ -33,12 +33,6 @@ function RegisterForm() {
 
   const FormSchema = z
     .object({
-      firstname: z.string().min(5, {
-        message: "first name must be at least 5 characters.",
-      }),
-      lastname: z.string().min(5, {
-        message: "last name must be at least 5 characters.",
-      }),
       email: z
         .string()
         .min(1, { message: "This field has to be filled." })
@@ -59,8 +53,6 @@ function RegisterForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstname: "",
-      lastname: "",
       username: "",
       email: "",
       password: "",
@@ -70,8 +62,11 @@ function RegisterForm() {
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     form.clearErrors();
-    createUserWithEmailAndPassword(auth, values.email, values.password)
-    await addUser({firstname: values.firstname, lastname: values.lastname, email: values.email, username: values.username})
+    const user = await createUserWithEmailAndPassword(auth, values.email, values.password)
+    
+    const userid = user.user.uid;
+
+    await addUser({id:userid, email: values.email, username: values.username, })
     router.push("/login");
   }
 
@@ -83,60 +78,13 @@ function RegisterForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-3"
       >
-        <div className="flex justify-between">
-          <FormField
-            control={form.control}
-            name="firstname"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-myColors-primary-text_white">
-                  First name
-                </FormLabel>
-                <FormControl>
-                  <>
-                    <Input
-                      placeholder="Enter Your Unique name ..."
-                      className="input-field-style w-[300px]"
-                      {...field}
-                    />
-                  </>
-                </FormControl>
-                {/* {form.formState.errors.username && <FormMessage />} */}
-                <FormMessage/>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastname"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-myColors-primary-text_white">
-                  Last name
-                </FormLabel>
-                <FormControl>
-                  <>
-                    <Input
-                      placeholder="Enter Your Unique name ..."
-                      className="input-field-style w-[300px]"
-                      {...field}
-                    />
-                  </>
-                </FormControl>
-                <FormMessage/>
-
-                {/* {form.formState.errors.username && <FormMessage />} */}
-              </FormItem>
-            )}
-          />
-        </div>
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-myColors-primary-text_white">
-                username
+                Username
               </FormLabel>
               <FormControl>
                 <>
