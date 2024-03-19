@@ -3,7 +3,6 @@ export default class Watermark {
         public id: string,
         public name: string,
         public watermarkUrl: string,
-        public userId: string,
         public createdAt?: Date,
         public updatedAt?: Date
     ) { }
@@ -15,7 +14,6 @@ export default class Watermark {
             doc.id,
             data.name,
             data.watermarkUrl,
-            data.userId,
             data.createdAt.toDate(),
             data.updatedAt.toDate()
         );
@@ -26,7 +24,6 @@ export default class Watermark {
         return {
             name: this.name,
             watermarkUrl: this.watermarkUrl,
-            userId: this.userId,
             createdAt: this.createdAt || now,
             updatedAt: this.updatedAt || now,
         };

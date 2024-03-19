@@ -5,7 +5,7 @@ import Watermark from "../models/watermark.model";
 import { WatermarkType } from "../modeltypes/modelTypes";
 
 
-export async function addWatermark(newWatermark: WatermarkType) {
-  const watermark = new Watermark(uuidv4(), newWatermark.name, newWatermark.watermarkUrl, newWatermark.userId, newWatermark.createdAt, newWatermark.updatedAt);
-  await setDoc(doc(db, 'watermark', watermark.id), watermark.toFirestore());
+export async function addWatermark(newWatermark: WatermarkType, userId: string) {
+  const watermark = new Watermark(uuidv4(), newWatermark.name, newWatermark.watermarkUrl, newWatermark.createdAt, newWatermark.updatedAt);
+  await addDoc(collection(db, 'users', userId, 'watermarks'), watermark.toFirestore());
 }

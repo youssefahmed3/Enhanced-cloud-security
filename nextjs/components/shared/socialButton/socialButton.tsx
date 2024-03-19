@@ -14,7 +14,7 @@ function SocialButton(props: Props) {
     const { session } = useAuth();
   return (
     <div>
-      <Avatar className="cursor-pointer" onClick={() => {signIn(props.provider)}}>
+      <Avatar className="cursor-pointer" onClick={() => {signIn("google")}}>
         <AvatarImage src={props.img} />
         <AvatarFallback className="text-black text-sm">{props.provider}</AvatarFallback>
       </Avatar>

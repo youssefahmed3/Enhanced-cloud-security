@@ -1,15 +1,12 @@
+import {WatermarkType, WatermarkedImageType} from '../modeltypes/modelTypes'
 export default class User {
     constructor(
         public id: string,
-        public firstname: string,
-        public lastname: string,
         public username: string,
         public email: string,
         public avatar?: string,
         public createdAt?: Date,
         public updatedAt?: Date,
-        public watermarks?: [string],
-        public watermarkedImages?: [string],
 
     ) {}
     
@@ -18,8 +15,6 @@ export default class User {
         const data = doc.data();
         return new User(
             doc.id,
-            data.firstname,
-            data.lastname,
             data.username,
             data.email,
             data.avatar,
@@ -31,15 +26,12 @@ export default class User {
     toFirestore(): object {
         const now = new Date();
         return {
-            firstname: this.firstname,
-            lastname: this.lastname,
+            id: this.id,
             username: this.username,
             email: this.email,
-            photoUrl: this.avatar || "",
+            avatar: this.avatar || "",
             createdAt: this.createdAt || now,
             updatedAt: this.updatedAt || now,
-            watermarks: this.watermarks || [],
-            watermarkedImages: this.watermarkedImages || [],
         };
     }
 }

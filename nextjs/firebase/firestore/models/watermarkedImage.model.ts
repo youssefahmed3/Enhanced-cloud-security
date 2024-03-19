@@ -4,9 +4,6 @@ export default class WatermarkedImage {
         public name: string,
         public watermarkId: string,
         public watermarkedUrl: string,
-        public keypointsFeatures: {},
-        public descriptorsFeatures: {},
-        public userId: string,
         public createdAt?: Date,
         public updatedAt?: Date
     ) { }
@@ -19,9 +16,6 @@ export default class WatermarkedImage {
             data.name,
             data.watermarkId,
             data.watermarkedUrl,
-            data.keypointsFeatures,
-            data.descriptorsFeatures,
-            data.userId,
             data.createdAt.toDate(),
             data.updatedAt.toDate() // Remove this argument
         );
@@ -30,12 +24,10 @@ export default class WatermarkedImage {
     toFirestore(): object {
         const now = new Date();
         return {
+            id: this.id,
             name: this.name,
             watermarkId: this.watermarkId,
             watermarkedUrl: this.watermarkedUrl,
-            keypointsFeatures: this.keypointsFeatures,
-            descriptorsFeatures: this.descriptorsFeatures,
-            userId: this.userId,
             createdAt: this.createdAt || now,
             updatedAt: this.updatedAt || now,
         };

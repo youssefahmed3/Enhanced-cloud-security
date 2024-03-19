@@ -1,7 +1,5 @@
 interface UserType {
     id?: string;
-    firstname: string;
-    lastname: string;
     username: string;
     email: string;
     avatar?: string;
@@ -13,7 +11,6 @@ interface WatermarkType {
     id?: string;
     name: string;
     watermarkUrl: string;
-    userId: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -23,9 +20,6 @@ interface WatermarkedImageType {
     name: string;
     watermarkId: string;
     watermarkedUrl: string;
-    keypointsFeatures: {};
-    descriptorsFeatures: {};
-    userId: string;
     createdAt?: Date;
     updatedAt?: Date;
 

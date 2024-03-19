@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
@@ -16,64 +16,93 @@ import {
 import { set, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
+import { addWatermarkedImage } from "@/firebase/firestore/actions/watermarkedImage.actions";
+import { addWatermark } from "@/firebase/firestore/actions/watermark.actions";
+import useAuth from "@/app/context/useAuth";
+import axios from "axios";
+
 function Page() {
   const [selectedBaseFileView, setSelectedBaseFileView] = useState(null);
-  const [selectedWatermarkFileView, setSelectedWatermarkFileView] = useState(null);
+  const [selectedWatermarkFileView, setSelectedWatermarkFileView] =
+    useState(null);
   const [baseFile, setBaseFile] = useState(null);
   const [watermarkFile, setWatermarkFile] = useState(null);
 
   const [baseFileName, setBaseFileName] = useState("None");
   const [watermarkFileName, setWatermarkFileName] = useState("None");
+  // const [response, setResponse] = useState({});
+  const { data: session, status: SessionStatus } = useSession();
+  const { user } = useAuth();
+  // console.log(session, SessionStatus);
 
   const FormSchema = z.object({
-    base_file: z.unknown().refine(file => {
-      // Check if a file is selected
-      if (!(file instanceof File)) {
-        return false;
+    base_file: z.unknown().refine(
+      (file) => {
+        // Check if a file is selected
+        if (!(file instanceof File)) {
+          return false;
+        }
+
+        // Check the file type
+        const fileType = file.type;
+        const validImageTypes = [
+          "image/gif",
+          "image/jpeg",
+          "image/png",
+          "image/jpg",
+        ];
+        if (!validImageTypes.includes(fileType)) {
+          return false;
+        }
+
+        // Check the file size (max 5MB)
+        const fileSize = file.size;
+        const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+        if (fileSize > maxFileSize) {
+          return false;
+        }
+
+        return true;
+      },
+      {
+        message:
+          "Invalid file. Only GIF, JPEG, and PNG types are allowed and size must be less than 5MB.",
       }
-  
-      // Check the file type
-      const fileType = file.type;
-      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-      if (!validImageTypes.includes(fileType)) {
-        return false;
+    ),
+    watermark_file: z.unknown().refine(
+      (file) => {
+        // Check if a file is selected
+        if (!(file instanceof File)) {
+          return false;
+        }
+
+        // Check the file type
+        const fileType = file.type;
+        const validImageTypes = [
+          "image/gif",
+          "image/jpeg",
+          "image/png",
+          "image/jpg",
+        ];
+        if (!validImageTypes.includes(fileType)) {
+          return false;
+        }
+
+        // Check the file size (max 5MB)
+        const fileSize = file.size;
+        const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+        if (fileSize > maxFileSize) {
+          return false;
+        }
+
+        return true;
+      },
+      {
+        message:
+          "Invalid file. Only GIF, JPEG, and PNG types are allowed and size must be less than 5MB.",
       }
-  
-      // Check the file size (max 5MB)
-      const fileSize = file.size;
-      const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
-      if (fileSize > maxFileSize) {
-        return false;
-      }
-  
-      return true;
-    }, {
-      message: 'Invalid file. Only GIF, JPEG, and PNG types are allowed and size must be less than 5MB.',
-    }),
-    watermark_file: z.unknown().refine(file => {
-      // Check if a file is selected
-      if (!(file instanceof File)) {
-        return false;
-      }
-  
-      // Check the file type
-      const fileType = file.type;
-      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-      if (!validImageTypes.includes(fileType)) {
-        return false;
-      }
-  
-      // Check the file size (max 5MB)
-      const fileSize = file.size;
-      const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
-      if (fileSize > maxFileSize) {
-        return false;
-      }
-  
-      return true;
-    }, {
-      message: 'Invalid file. Only GIF, JPEG, and PNG types are allowed and size must be less than 5MB.',
-    }),
+    ),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -111,17 +140,76 @@ function Page() {
   };
 
   const handleSubmit = async () => {
-    const base_image = await uploadImage(baseFile, baseFileName);
-    const watermark_image = await uploadImage(watermarkFile, watermarkFileName);
-    console.log(base_image, watermark_image);
-  }
+    try {
+      const base_image = await uploadImage(baseFile, baseFileName);
+
+      console.log("Base image URL:", base_image);
+
+      const watermark_image = await uploadImage(
+        watermarkFile,
+        watermarkFileName
+      );
+
+      console.log("watermark image URL:", watermark_image);
+
+      if (watermark_image && base_image) {
+        await addWatermark(
+          { name: watermarkFileName, watermarkUrl: watermark_image as string },
+          user?.id as string
+        );
+        console.log("watermark added");
+      }
+
+      if (
+        typeof base_image === "string" &&
+        typeof watermark_image === "string"
+      ) {
+        const response = await axios.post(
+          "http://localhost:8000/api/v1/embed_sift",
+          {
+            base_url: base_image,
+            watermark_url: watermark_image,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data);
+        // setResponse(response.data);
+
+        try {
+          const imageResponse = await axios.get(response?.data.image, {
+            responseType: "blob",
+          });
+    
+          // Create a new Blob object
+          const blob = new Blob([imageResponse.data], { type: "image/jpeg" }); // adjust the MIME type as needed
+    
+          const watermarked_image = await uploadImage(blob, baseFileName);
+          console.log("watermarked image URL:", watermarked_image);
+        } catch (error) {
+          console.log("Error fetching image", error);
+        }
+      } else {
+        console.log("Invalid URLs");
+      }
+
+      
+    } catch (error) {
+      console.log("Error adding watermark", error);
+    }
+
+    
+  };
 
   return (
     <div className="side-container-flex gap-5">
       <Navbar />
       <div className="flex flex-col gap-4 bg-myColors-primary-blue rounded-sm px-3 py-2 w-full">
         <div className="flex w-[100%] justify-between items-center">
-          <p className="text-2xl font-bold">Upload Your Files</p>
+          <p className="text-2xl font-bold">Upload and Watermark Your Files</p>
           <Button className="button-style" onClick={handleSubmit}>
             Submit
           </Button>
@@ -162,7 +250,10 @@ function Page() {
                       />
                     </div>
                   </FormControl>
-                  <FormLabel htmlFor="base-image" className="button-style p-2 rounded-md text-white cursor-pointer text-center">
+                  <FormLabel
+                    htmlFor="base-image"
+                    className="button-style p-2 rounded-md text-white cursor-pointer text-center"
+                  >
                     <span className="font-bold">Choose Base File</span> |{" "}
                     {baseFileName}
                   </FormLabel>
@@ -201,7 +292,10 @@ function Page() {
                       />
                     </div>
                   </FormControl>
-                  <FormLabel htmlFor="watermark-image" className="button-style p-2 rounded-md text-white cursor-pointer text-center">
+                  <FormLabel
+                    htmlFor="watermark-image"
+                    className="button-style p-2 rounded-md text-white cursor-pointer text-center"
+                  >
                     <span className="font-bold">Choose Watermark File</span> |{" "}
                     {watermarkFileName}
                   </FormLabel>
@@ -212,7 +306,8 @@ function Page() {
           </form>
         </Form>
       </div>
-    </div>
+          
+    </div>
   );
 }
 
