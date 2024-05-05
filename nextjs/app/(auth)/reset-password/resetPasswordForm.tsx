@@ -21,7 +21,7 @@ import Link from "next/link";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase/config";
 import useAuth from "@/app/context/useAuth";
-
+import { toast } from "sonner";
 
 function ResetPasswordForm() {
   const { isAuthenticated, session } = useAuth();
@@ -46,7 +46,13 @@ function ResetPasswordForm() {
   });
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    sendPasswordResetEmail(auth, values.email)
+    await sendPasswordResetEmail(auth, values.email)
+      .then(() => {
+        toast.success("Password reset email sent successfully");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }
 
   //   const inputStyle:string = "w-full bg-white";

@@ -1,0 +1,8 @@
+[
+  {
+    "extracted_watermark": "http://localhost:8000/images/extracted_watermark_4.1.01.jpg",
+    "nc": 0.07095611041362439,
+    "ssim": 0.012385454950983728,
+    "ber": 3.0
+  }
+]

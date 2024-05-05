@@ -1,72 +1,135 @@
 [
   {
-    "image": "http://localhost:8000/images/watermarked_airplane.jpg",
-    "psnr": 50.0517202483733,
-    "nc": 0.9998029137404599,
-    "ssim": 0.9996281893061033,
-    "ber": 1.92765625
+    "image": "http://localhost:8000/images/watermarked_4.1.01.jpg",
+    "psnr": 49.96395148368653,
+    "nc": 0.9998229003598853,
+    "ssim": 0.9997744780797168,
+    "ber": 1.9670095443725586
   },
   {
-    "image": "http://localhost:8000/images/watermarked_bird-color.jpg",
-    "psnr": 49.9698873223916,
-    "nc": 0.9998629298342702,
-    "ssim": 0.9998138482050349,
-    "ber": 1.9643229166666667
+    "image": "http://localhost:8000/images/watermarked_4.1.02.jpg",
+    "psnr": 49.96409045616886,
+    "nc": 0.9996882354865647,
+    "ssim": 0.9995941064057952,
+    "ber": 1.9669466018676758
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.1.03.jpg",
+    "psnr": 49.973559474133886,
+    "nc": 0.9996452009890516,
+    "ssim": 0.9995836509846812,
+    "ber": 1.962662696838379
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.1.04.jpg",
+    "psnr": 49.96599651239051,
+    "nc": 0.9998878815712979,
+    "ssim": 0.9997849002003805,
+    "ber": 1.9660835266113281
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.1.05.jpg",
+    "psnr": 49.964054659801235,
+    "nc": 0.9998778541409397,
+    "ssim": 0.9999157006117276,
+    "ber": 1.9669628143310547
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.1.06.jpg",
+    "psnr": 49.96401465244539,
+    "nc": 0.9999242910074422,
+    "ssim": 0.9999159935871405,
+    "ber": 1.9669809341430664
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.1.07.jpg",
+    "psnr": 49.964098878886475,
+    "nc": 0.9998305565068111,
+    "ssim": 0.9998138377985288,
+    "ber": 1.9669427871704102
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.1.08.jpg",
+    "psnr": 49.963831465575936,
+    "nc": 0.9998674656296831,
+    "ssim": 0.9998428456159143,
+    "ber": 1.9670639038085938
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.2.01.jpg",
+    "psnr": 49.96393885004502,
+    "nc": 0.9999392817314754,
+    "ssim": 0.9998483027247066,
+    "ber": 1.967015266418457
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.2.03.jpg",
+    "psnr": 49.964633754909904,
+    "nc": 0.999889388490782,
+    "ssim": 0.9999092239276574,
+    "ber": 1.966700553894043
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.2.05.jpg",
+    "psnr": 49.963993596090354,
+    "nc": 0.9998276650631731,
+    "ssim": 0.9996799930356858,
+    "ber": 1.9669904708862305
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.2.06.jpg",
+    "psnr": 49.963915688464354,
+    "nc": 0.9999281223749057,
+    "ssim": 0.9999436525202032,
+    "ber": 1.9670257568359375
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_4.2.07.jpg",
+    "psnr": 49.96395358929703,
+    "nc": 0.9999242777863601,
+    "ssim": 0.9998290555042484,
+    "ber": 1.9670085906982422
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_5.3.01.jpg",
+    "psnr": 49.963898843756,
+    "nc": 0.9999023190370429,
+    "ssim": 0.9999022676177227,
+    "ber": 0.6556777954101562
+  },
+  {
+    "image": "http://localhost:8000/images/watermarked_camera-man.png",
+    "psnr": 49.96519397129273,
+    "nc": 0.9999289866813393,
+    "ssim": 0.9999289920767357,
+    "ber": 0.655482292175293
   },
   {
     "image": "http://localhost:8000/images/watermarked_lena.png",
-    "psnr": 49.97244750240618,
-    "nc": 0.9998571491165326,
-    "ssim": 0.9998571703106408,
-    "ber": 0.654388427734375
+    "psnr": 49.963924110843024,
+    "nc": 0.9998553052833625,
+    "ssim": 0.9998553266985025,
+    "ber": 0.6556739807128906
   },
   {
-    "image": "http://localhost:8000/images/watermarked_man-1.jpg",
-    "psnr": 50.33776580988315,
-    "nc": 0.9999590963389655,
-    "ssim": 0.9999510513977191,
-    "ber": 1.8047831790123456
+    "image": "http://localhost:8000/images/watermarked_mandrill-image.png",
+    "psnr": 49.96403149760293,
+    "nc": 0.9997961159641006,
+    "ssim": 0.9997961629839671,
+    "ber": 0.6556577682495117
   },
   {
-    "image": "http://localhost:8000/images/watermarked_man-2.jpg",
-    "psnr": 33.390839236125416,
-    "nc": 0.9820676651556093,
-    "ssim": 0.9703667114791776,
-    "ber": 2.574161060700876
+    "image": "http://localhost:8000/images/watermarked_pepper.jpg",
+    "psnr": 28.21148751525968,
+    "nc": 0.3584625075615568,
+    "ssim": 0.13590031729197696,
+    "ber": 2.9662596696954813
   },
   {
-    "image": "http://localhost:8000/images/watermarked_man-3.jpeg",
-    "psnr": 35.345857890792544,
-    "nc": 0.9948169924534422,
-    "ssim": 0.994320694988486,
-    "ber": 2.500132450331126
-  },
-  {
-    "image": "http://localhost:8000/images/watermarked_man-4.jpg",
-    "psnr": 49.96438845063726,
-    "nc": 0.9996430854566931,
-    "ssim": 0.9996499419124099,
-    "ber": 1.9668116429578368
-  },
-  {
-    "image": "http://localhost:8000/images/watermarked_sea.jpg",
-    "psnr": 49.979367392979064,
-    "nc": 0.9999305109579462,
-    "ssim": 0.9999378916727656,
-    "ber": 1.960039737654321
-  },
-  {
-    "image": "http://localhost:8000/images/watermarked_women-1.jpg",
-    "psnr": 28.82334581522022,
-    "nc": 0.019840081994704127,
-    "ssim": -0.05234780200457921,
-    "ber": 2.8612644528137485
-  },
-  {
-    "image": "http://localhost:8000/images/watermarked_women-2.png",
-    "psnr": 28.20278791004984,
-    "nc": 0.08664487016953294,
-    "ssim": 0.0859012644881972,
-    "ber": 2.9447096479195243
+    "image": "http://localhost:8000/images/watermarked_pepper.png",
+    "psnr": 49.963816726738386,
+    "nc": 0.9998841901346824,
+    "ssim": 0.9998842038982371,
+    "ber": 0.6556901931762695
   }
 ]

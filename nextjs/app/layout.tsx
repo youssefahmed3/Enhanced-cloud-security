@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./context/authProvider";
 import Sidebar from "@/components/shared/Sidebar/sidebar";
-
+import { Toaster } from "@/components/ui/sonner"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,8 +23,10 @@ const RootLayout = ({children, hasSidebar}: {children: React.ReactNode[], hasSid
               {children}
             </div>
           </div>
+
         </AuthProvider>
       </body>
+      <Toaster />
     </html>
   );
 }

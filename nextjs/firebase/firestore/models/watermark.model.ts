@@ -6,7 +6,6 @@ export default class Watermark {
         public createdAt?: Date,
         public updatedAt?: Date
     ) { }
-
     /* From Firestore to object i can use */
     static fromFirestore(doc: any): Watermark {
         const data = doc.data();

@@ -69,7 +69,7 @@ async def extract_watermark_sift(image: Extract_Image):
     arr = np.asarray(bytearray(data_watermark_img), dtype=np.uint8)
     watermark_img = cv2.imdecode(arr, -1) # Load image from bytes
 
-    # Embed the watermark
+    # extract the watermark
     model = watermarking_Scheme.watermarking_Scheme(base_img, watermark_img)
     watermark_image = model.extract_with_SIFT(base_img, watermark_img)
     og_watermark = cv2.imread('watermarks/watermark.jpg')
