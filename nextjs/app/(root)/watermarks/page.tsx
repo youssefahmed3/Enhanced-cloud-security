@@ -19,14 +19,51 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import DownloadIcon from "@/assets/svgs/download";
+import { db } from "@/firebase/config";
+import { useState, useEffect } from "react";
+import {
+  addDoc,
+  doc,
+  collection,
+  setDoc,
+  getDoc,
+  getDocs,
+  QueryDocumentSnapshot,
+} from "firebase/firestore";
+import { WatermarkType } from "@/firebase/firestore/modeltypes/modelTypes";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 export default function Page() {
-  const { isAuthenticated, session } = useAuth();
+  const { isAuthenticated, session, user } = useAuth();
   const router = useRouter();
 
   if (!isAuthenticated) {
     router.replace("/login");
   }
+
+  const [watermarks, setWatermarks] = useState<WatermarkType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        const watermarksCollection = collection(
+          db,
+          "users",
+          user?.id as string,
+          "watermarks"
+        );
+        const watermarksSnapshot = await getDocs(watermarksCollection);
+        const watermarksData = watermarksSnapshot.docs.map(
+          (doc) => ({ id: doc.id, ...doc.data() } as any)
+        );
+        setWatermarks(watermarksData);
+        // console.log(watermarksData);
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
   return (
     <main className="side-container-flex gap-5">
       <Navbar />
@@ -37,37 +74,50 @@ export default function Page() {
           <Button className="button-style">Filter</Button>
         </div>
 
-        <Table className="">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">
-              <File_Dock_Fill color="#EBF9FF" />
-            </TableHead>
-            <TableHead className="text-myColors-primary-text_white">
-              Watermark Name
-            </TableHead>
-            <TableHead className="text-myColors-primary-text_white">Type</TableHead>
-            <TableHead className="text-myColors-primary-text_white">Uploaded At.</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow
-            className="cursor-pointer"
-            onClick={() => router.push('/documents/1')}
-          >
-            <TableCell>
-              <Avatar className="w-[30px] h-[30px]">
-                <AvatarImage src={`${session?.user?.image}`} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </TableCell>
-            <TableCell>lena</TableCell>
-            <TableCell>png</TableCell>
-            <TableCell>Mon 12:00pm</TableCell>
-            
-          </TableRow>
-        </TableBody>
-      </Table>
+        <ScrollArea className="h-[550px] rounded-md border p-4">
+          <Table className="">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">
+                  <File_Dock_Fill color="#EBF9FF" />
+                </TableHead>
+                <TableHead className="text-myColors-primary-text_white">
+                  Watermark Name
+                </TableHead>
+                <TableHead className="text-myColors-primary-text_white">
+                  Type
+                </TableHead>
+                <TableHead className="text-myColors-primary-text_white">
+                  Uploaded At.
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {watermarks.map((watermark) => (
+                <TableRow key={watermark.id}>
+                  <TableCell className="w-[100px]">
+                    <Avatar>
+                      <AvatarImage src={watermark.watermarkUrl} />
+                    </Avatar>
+                  </TableCell>
+                  <TableCell>
+                    <p>{watermark.name}</p>
+                  </TableCell>
+                  <TableCell>
+                    <p>Image</p>
+                  </TableCell>
+                  <TableCell>
+                    <p>
+                      {new Date(
+                        watermark.createdAt.toDate()
+                      ).toLocaleDateString()}
+                    </p>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
       </div>
     </main>
   );

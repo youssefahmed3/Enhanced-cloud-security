@@ -20,7 +20,9 @@ import { useSession } from "next-auth/react";
 import { addWatermarkedImage } from "@/firebase/firestore/actions/watermarkedImage.actions";
 import { addWatermark } from "@/firebase/firestore/actions/watermark.actions";
 import useAuth from "@/app/context/useAuth";
+import { useRouter } from "next/navigation";
 import axios from "axios";
+import {toast} from "sonner"
 
 function Page() {
   const [selectedBaseFileView, setSelectedBaseFileView] = useState(null);
@@ -33,8 +35,14 @@ function Page() {
   const [watermarkFileName, setWatermarkFileName] = useState("None");
   // const [response, setResponse] = useState({});
   const { data: session, status: SessionStatus } = useSession();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   // console.log(session, SessionStatus);
+
+  const router = useRouter();
+
+  if (isAuthenticated === false) {
+    router.replace("/login");
+  }
 
   const FormSchema = z.object({
     base_file: z.unknown().refine(
@@ -141,6 +149,7 @@ function Page() {
 
   const handleSubmit = async () => {
     try {
+      toast.loading("adding watermark...")
       const base_image = await uploadImage(baseFile, baseFileName);
 
       console.log("Base image URL:", base_image);
@@ -164,6 +173,8 @@ function Page() {
         typeof base_image === "string" &&
         typeof watermark_image === "string"
       ) {
+        console.log("base and watermark image URLs:", base_image, watermark_image);
+        
         const response = await axios.post(
           "http://localhost:8000/api/v1/embed_sift",
           {
@@ -183,25 +194,39 @@ function Page() {
           const imageResponse = await axios.get(response?.data.image, {
             responseType: "blob",
           });
-    
+
           // Create a new Blob object
           const blob = new Blob([imageResponse.data], { type: "image/jpeg" }); // adjust the MIME type as needed
-    
+
           const watermarked_image = await uploadImage(blob, baseFileName);
           console.log("watermarked image URL:", watermarked_image);
+          
+
+          await addWatermarkedImage(
+            {
+              baseUrl: base_image as string,
+              name: "watermarked_" + baseFileName,
+              watermarkUrl: watermark_image as string,
+              watermarkedUrl: watermarked_image as string,
+            },
+            user?.id as string
+          );
         } catch (error) {
           console.log("Error fetching image", error);
         }
       } else {
         console.log("Invalid URLs");
       }
+      toast.success("Watermark added successfully")
 
-      
+      // Clear the form after submission
+      form.reset();
+      setSelectedBaseFileView(null);
+      setSelectedWatermarkFileView(null);
     } catch (error) {
+      toast.error("Error adding watermark");
       console.log("Error adding watermark", error);
     }
-
-    
   };
 
   return (

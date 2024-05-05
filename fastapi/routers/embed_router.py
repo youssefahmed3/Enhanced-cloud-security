@@ -7,6 +7,7 @@ import aiohttp
 from models.embed_image import Embed_image
 import watermarking_Scheme
 from Evaluation_parameters import calculate_ber, calculate_nc, calculate_psnr, calculate_ssim
+import uuid
 
 router = APIRouter()
 
@@ -80,16 +81,21 @@ async def embed_SIFT(image: Embed_image):
     ber = calculate_ber(base_img, result)
     # nc_watermark = calculate_nc(watermark_img, watermark_img)
     # Extract the base image's name from its URL
-    base_image_name = os.path.basename(urlparse(image.base_url).path)
-
+    #base_image_name = os.path.basename(urlparse(image.base_url).path)
+    #print("-" + base_image_name)
     # Extract the base image's name from its URL
-    base_image_name = os.path.basename(urlparse(image.base_url).path)
+    
 
     # Ensure the base image name has a supported extension
-    base_image_name = base_image_name if base_image_name.lower().endswith(('.png', '.jpg', '.jpeg')) else base_image_name + '.png'
+    #base_image_name = base_image_name if base_image_name.lower().endswith(('.png', '.jpg', '.jpeg')) else #base_image_name + '.png'
+    base_image_name = os.path.basename(urlparse(image.base_url).path)
 
+    #print("-" + base_image_name)
+    random_uuid = uuid.uuid4()
     # Generate a unique name for the watermarked image
-    watermarked_image_name = f"watermarked_{base_image_name}"
+    watermarked_image_name = f"watermarked_{random_uuid}.png"
+    watermarked_def_image_name = f"watermarked_{base_image_name}"
+    print("--" + watermarked_image_name)
 
     cv2.imwrite(f'images/{watermarked_image_name}', result)
 

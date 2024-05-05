@@ -7,6 +7,6 @@ import { WatermarkedImageType } from "../modeltypes/modelTypes";
 
 
 export async function addWatermarkedImage(newWatermarkedImage: WatermarkedImageType, userId: string) {
-  const watermarkedImage = new WatermarkedImage(uuidv4(), newWatermarkedImage.name, newWatermarkedImage.watermarkId, newWatermarkedImage.watermarkedUrl, newWatermarkedImage.createdAt, newWatermarkedImage.updatedAt);
+  const watermarkedImage = new WatermarkedImage(uuidv4(), newWatermarkedImage.name, newWatermarkedImage.watermarkUrl, newWatermarkedImage.baseUrl, newWatermarkedImage.watermarkedUrl, newWatermarkedImage.createdAt, newWatermarkedImage.updatedAt);
   await addDoc(collection(db, 'users', userId, "watermarkedImages"), watermarkedImage.toFirestore());
 }

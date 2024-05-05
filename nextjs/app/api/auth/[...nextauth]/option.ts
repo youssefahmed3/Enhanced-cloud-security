@@ -25,7 +25,7 @@
                     .then((userCredential) => {
                         return userCredential.user 
                     })
-                    .catch((error) => { return error });
+                    .catch((error) => { throw error });
                 },
             }),
             GoogleProvider({

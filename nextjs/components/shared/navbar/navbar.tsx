@@ -23,7 +23,7 @@ export default function Navbar() {
           <div className="flex justify-between items-center gap-2  bg-myColors-accent-blue2 text-myColors-primary-background p-2 rounded-md">
             <Avatar className="w-[30px] h-[30px]">
               <AvatarImage src={`${user?.avatar}`} />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>{user?.username.slice(0, 2)}</AvatarFallback>
             </Avatar>
             {user?.username}
           </div>

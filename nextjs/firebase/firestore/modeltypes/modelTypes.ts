@@ -18,7 +18,8 @@ interface WatermarkType {
 interface WatermarkedImageType {
     id?: string;
     name: string;
-    watermarkId: string;
+    watermarkUrl: string;
+    baseUrl: string;
     watermarkedUrl: string;
     createdAt?: Date;
     updatedAt?: Date;

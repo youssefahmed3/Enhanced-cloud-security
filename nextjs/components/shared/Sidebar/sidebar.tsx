@@ -42,7 +42,7 @@ function Sidebar() {
             }`}
             onClick={() => router.push("/documents")}
           >
-            Documents
+            Watermarked Documents
           </Button>
           <Button
             className={`button-style ${

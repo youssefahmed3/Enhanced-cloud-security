@@ -53,14 +53,17 @@ function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    try {
-      await signIn("credentials", {
-        redirect: false,
-        email: values.email,
-        password: values.password,
-      });
-    } catch (error) {
-      console.log(error);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+    });
+    console.log(result);
+    
+    if (result && result.error) {
+      console.log("Sign in error:", result.error);
+      // You can display a toast notification or some other form of error message here
+      toast.error("Email or password is not correct try again or reset password");
     }
   }
 

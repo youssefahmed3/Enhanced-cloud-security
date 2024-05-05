@@ -2,6 +2,13 @@ import cv2 # for reading and writing images
 import numpy as np # for mathematical operations
 
 def calculate_ssim(img1, img2):
+    # If the number of color channels doesn't match, convert the images to grayscale
+    if len(img1.shape) != len(img2.shape):
+        if len(img1.shape) == 3:
+            img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        if len(img2.shape) == 3:
+            img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     # Ensure the images are the same size
     if img1.shape != img2.shape:
         # Resize img2 to match img1
@@ -22,6 +29,13 @@ def calculate_ssim(img1, img2):
     return ssim
 
 def calculate_ber(img1, img2):
+    # If the number of color channels doesn't match, convert the images to grayscale
+    if len(img1.shape) != len(img2.shape):
+        if len(img1.shape) == 3:
+            img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        if len(img2.shape) == 3:
+            img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
     # Ensure the images are the same size
     if img1.shape != img2.shape:
         # Resize img2 to match img1
@@ -39,6 +53,13 @@ def calculate_ber(img1, img2):
     return ber
 
 def calculate_nc(image, template):
+    # If the number of color channels doesn't match, convert the images to grayscale
+    if len(image.shape) != len(template.shape):
+        if len(image.shape) == 3:
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        if len(template.shape) == 3:
+            template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+
     # Ensure the images are the same size
     if image.shape != template.shape:
         # Resize the template to match the image
@@ -67,8 +88,15 @@ def calculate_nc(image, template):
 
 
 def calculate_psnr(original_image, reconstructed_image):    
+    # If the number of color channels doesn't match, convert the images to grayscale
+    if len(original_image.shape) != len(reconstructed_image.shape):
+        if len(original_image.shape) == 3:
+            original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+        if len(reconstructed_image.shape) == 3:
+            reconstructed_image = cv2.cvtColor(reconstructed_image, cv2.COLOR_BGR2GRAY)
+
+    # Resize reconstructed_image to match the shape of original_image
     if original_image.shape != reconstructed_image.shape:
-        # Resize reconstructed_image to match the shape of original_image
         reconstructed_image = cv2.resize(reconstructed_image, (original_image.shape[1], original_image.shape[0]))
 
     assert original_image.shape == reconstructed_image.shape
@@ -85,15 +113,3 @@ def calculate_psnr(original_image, reconstructed_image):
     psnr = 20 * np.log10(max_pixel / np.sqrt(mse))
 
     return psnr
-
-
-    # Calculate the total number of pixels
-    total_pixels = img1.shape[0] * img1.shape[1]
-
-    # Calculate the number of different pixels
-    different_pixels = np.sum(img1 != img2)
-
-    # Calculate BER
-    ber = different_pixels / total_pixels
-
-    return ber
